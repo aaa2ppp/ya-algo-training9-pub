@@ -1,2 +1,31 @@
 #!/bin/sh
-contestio-inline -tags=sugar,must "$@"
+
+# Path to the local library (relative to project root)
+LOCAL_LIB_DIR="./lib/contestio"
+LOCAL_BIN="$LOCAL_LIB_DIR/bin/contestio-inline"
+
+# Check if the local library directory exists
+if [ -d "$LOCAL_LIB_DIR" ]; then
+    # Local library present – we must use its binary.
+    if [ ! -x "$LOCAL_BIN" ]; then
+        echo "Local contestio library found, but binary missing. Building..." >&2
+        (cd "$LOCAL_LIB_DIR" && make bin/contestio-inline) || {
+            echo "Failed to build local contestio-inline." >&2
+            exit 1
+        }
+    fi
+    CMD="$LOCAL_BIN"
+else
+    # No local library – use the globally installed version.
+    if ! command -v contestio-inline >/dev/null 2>&1; then
+        echo "contestio-inline not found. Installing latest version..." >&2
+        go install github.com/aaa2ppp/contestio/cmd/contestio-inline@latest || {
+            echo "Failed to install contestio-inline." >&2
+            exit 1
+        }
+    fi
+    CMD="contestio-inline"
+fi
+
+# Run the tool with the required tags and all arguments
+exec "$CMD" -tags=sugar,must "$@"

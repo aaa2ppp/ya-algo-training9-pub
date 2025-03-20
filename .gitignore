@@ -7,7 +7,9 @@
 *~
 *.bak
 *.bak[0-9]
-/tmp
-/bak
-/bak[0-9]
-/bin
+go.work*
+tmp/
+bak/
+bak[0-9]/
+bin/
+lib/
