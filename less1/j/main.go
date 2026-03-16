@@ -24,7 +24,9 @@ func solve(a, b, c, d point) bool {
 	p3 := c
 	p4 := d
 
+	// мы угадаем, что взяли сторону, а не диоганаль, максимум с двух попыток
 	for i := 0; i < 2; i++ {
+		// упорядочиваем точки отрезков для сравнения
 		if p1.x != p2.x {
 			if p1.x > p2.x {
 				p1, p2 = p2, p1
@@ -41,10 +43,11 @@ func solve(a, b, c, d point) bool {
 			}
 		}
 
-		if p1.x-p2.x == p3.x-p4.x && p1.y-p2.y == p3.y-p4.y {
+		if p1.x-p2.x == p3.x-p4.x && p1.y-p2.y == p3.y-p4.y { // параллельны и равны по длине
 			return true
 		}
 
+		// меняем вторую точку
 		p2, p3 = p3, p2
 	}
 
@@ -64,7 +67,13 @@ func run(in io.Reader, out io.Writer, solve solveFunc) {
 
 	var a, b, c, d point
 	for i := 0; i < n; i++ {
-		if _, err := ScanInt(br, &a.x, &a.y, &b.x, &b.y, &c.x, &c.y, &d.x, &d.y); err != nil {
+		_, err := ScanInt(br,
+			&a.x, &a.y,
+			&b.x, &b.y,
+			&c.x, &c.y,
+			&d.x, &d.y,
+		)
+		if err != nil {
 			panic(err)
 		}
 		if solve(a, b, c, d) {
