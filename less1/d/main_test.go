@@ -2,7 +2,6 @@ package main
 
 import (
 	"bytes"
-	"io"
 	"strings"
 	"testing"
 )
@@ -12,39 +11,96 @@ func Test_run_solve(t *testing.T) {
 }
 
 func test_run(t *testing.T, solve solveFunc) {
-	type args struct {
-		in io.Reader
-	}
 	tests := []struct {
 		name    string
-		args    args
+		input   string
 		wantOut string
 		debug   bool
 	}{
-		// {
-		// 	"1",
-		// 	args{strings.NewReader(``)},
-		// 	``,
-		// 	true,
-		// },
-		// {
-		// 	"2",
-		// 	args{strings.NewReader(``)},
-		// 	``,
-		// 	true,
-		// },
-		// {
-		// 	"3",
-		// 	args{strings.NewReader(``)},
-		// 	``,
-		// 	true,
-		// },
-		// {
-		// 	"4",
-		// 	args{strings.NewReader(``)},
-		// 	``,
-		// 	true,
-		// },
+		{
+			"1",
+			`10 20
+heat`,
+			"20",
+			true,
+		},
+		{
+			"2",
+			`20 10
+heat`,
+			"20",
+			true,
+		},
+		{
+			"3",
+			`-10 -10
+heat`,
+			"-10",
+			true,
+		},
+		{
+			"4",
+			`10 20
+freeze`,
+			"10",
+			true,
+		},
+		{
+			"5",
+			`20 10
+freeze`,
+			"10",
+			true,
+		},
+		{
+			"6",
+			`-10 -10
+freeze`,
+			"-10",
+			true,
+		},
+		{
+			"7",
+			`10 20
+auto`,
+			"20",
+			true,
+		},
+		{
+			"8",
+			`20 10
+auto`,
+			"10",
+			true,
+		},
+		{
+			"9",
+			`-10 -10
+auto`,
+			"-10",
+			true,
+		},
+		{
+			"10",
+			`10 20
+fan`,
+			"10",
+			true,
+		},
+		{
+			"11",
+			`20 10
+fan`,
+			"20",
+			true,
+		},
+		{
+			"12",
+			`-10 -10
+fan`,
+			"-10",
+			true,
+		},
 		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
@@ -52,8 +108,9 @@ func test_run(t *testing.T, solve solveFunc) {
 			defer func(v bool) { debug = v }(debug)
 			debug = tt.debug
 
+			in := strings.NewReader(tt.input)
 			out := &bytes.Buffer{}
-			run(tt.args.in, out, solve)
+			run(in, out, solve)
 			if gotOut := out.String(); trimLines(gotOut) != trimLines(tt.wantOut) {
 				t.Errorf("run() = %v, want %v", gotOut, tt.wantOut)
 			}

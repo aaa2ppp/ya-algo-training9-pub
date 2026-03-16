@@ -2,7 +2,6 @@ package main
 
 import (
 	"io"
-	"log"
 	"os"
 
 	. "github.com/aaa2ppp/contestio"
@@ -27,22 +26,15 @@ func run(in io.Reader, out io.Writer, solve solveFunc) {
 	var a []int
 
 	if _, err := ScanIntLn(br, &n); err != nil {
-		log.Fatalf("scan n: %v", err)
-	}
-	if debug {
-		log.Printf("n: %d\n", n)
+		panic(err)
 	}
 
 	a = Resize(a, n)
-	if i, err := ScanInts(br, a); err != nil {
-		log.Printf("scan a[%d]: %v", i, err)
-	}
-	if debug {
-		log.Printf("a: %v", a)
+	if _, err := ScanInts(br, a); err != nil {
+		panic(err)
 	}
 
 	ans := solve(a)
-
 	PrintIntsLn(bw, ans)
 }
 
