@@ -1,2 +1,2 @@
 #!/bin/sh
-contestio-inline "$@"
+contestio-inline -tags=sugar,must "$@"

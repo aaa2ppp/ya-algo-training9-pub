@@ -25,14 +25,10 @@ func run(in io.Reader, out io.Writer, solve solveFunc) {
 	var n int
 	var a []int
 
-	if _, err := ScanIntLn(br, &n); err != nil {
-		panic(err)
-	}
+	ScanIntLn(br, &n)
 
 	a = Resize(a, n)
-	if _, err := ScanInts(br, a); err != nil {
-		panic(err)
-	}
+	ScanInts(br, a)
 
 	ans := solve(a)
 	PrintIntsLn(bw, ans)
