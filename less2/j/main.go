@@ -74,8 +74,8 @@ func run(in io.Reader, out io.Writer, solve solveFunc) {
 	var m, n int
 	ScanIntLn(br, &m, &n)
 
-	g, _ := br.ReadString('\n')
-	s, _ := br.ReadString('\n')
+	g, _ := ScanString(br, '\n')
+	s, _ := ScanString(br, '\n')
 
 	ans := solve(g, s)
 	PrintIntLn(bw, ans)

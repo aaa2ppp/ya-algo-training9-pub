@@ -64,20 +64,6 @@ func solve(sales []Sale) []CustomerProducs {
 	return report
 }
 
-func scanSale(br *Reader, s *Sale) error {
-	var customer, product string
-	var count int
-
-	if _, err := ScanWord(br, &customer, &product); err != nil {
-		return err
-	}
-	if _, err := ScanInt(br, &count); err != nil {
-		return err
-	}
-	*s = Sale{customer, product, count}
-	return nil
-}
-
 func run(in io.Reader, out io.Writer, solve solveFunc) {
 	br := NewReader(in)
 	bw := NewWriter(out)
@@ -85,12 +71,13 @@ func run(in io.Reader, out io.Writer, solve solveFunc) {
 
 	var sales []Sale
 
-	var err error
 	for {
 		var s Sale
-		err = scanSale(br, &s)
-		if err != nil {
+		if _, err := ScanWord(br, &s.Customer, &s.Product); err != nil {
 			break
+		}
+		if _, err := ScanInt(br, &s.Count); err != nil {
+			panic(err)
 		}
 		sales = append(sales, s)
 	}

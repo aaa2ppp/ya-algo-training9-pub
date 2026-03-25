@@ -7,6 +7,7 @@ EXCLUDE   ?=
 # path to local contestio
 LOCAL_LIB ?= ./lib/contestio
 
+INLINE    := ./inline
 GO        := go
 GOWORK    := go.work
 
@@ -16,7 +17,7 @@ MAIN_DIRS_FILTERED := $(filter-out $(EXCLUDE),$(MAIN_DIRS))
 SHOW_LOCAL  := $(GO) list -m -f 'LOCAL: {{.Dir}}' github.com/aaa2ppp/contestio
 SHOW_REMOTE := $(GO) list -m -f 'REMOTE: github.com/aaa2ppp/contestio@{{.Version}}' github.com/aaa2ppp/contestio 
 
-.PHONY: all state local remote build test list clean-cache help
+.PHONY: all state local remote build test list inline inline-clear clean-cache help
 
 all: state build test ## show state, then build and test
 
@@ -77,8 +78,44 @@ test: ## test solutions
 		echo "All tests passed." >&2; \
 	fi
 
+inline: ## contestio-inline
+	@echo "contestio-inline -tags=$(TAGS)" >&2; \
+	failed=0; \
+	for dir in $(MAIN_DIRS_FILTERED); do \
+		$(INLINE) -tags=$(TAGS) ./$$dir; \
+		exit_code=$$?; \
+		case $$exit_code in \
+			0) ;; \
+			127|130|143|2) >&2 echo "interrupted"; exit 1;; \
+			*) echo "failed ($$exit_code)" >&2; failed=1;; \
+		esac; \
+	done; \
+	if [ $$failed -eq 1 ]; then \
+		echo "Some inlines failed." >&2; exit 1; \
+	else \
+		echo "All inlinings passed." >&2; \
+	fi
+
+inline-clear: ## contestio-inline -clear
+	@echo "contestio-inline -clear -tags=$(TAGS)" >&2; \
+	failed=0; \
+	for dir in $(MAIN_DIRS_FILTERED); do \
+		$(INLINE) -clear -tags=$(TAGS) ./$$dir; \
+		exit_code=$$?; \
+		case $$exit_code in \
+			0) ;; \
+			127|130|143|2) >&2 echo "interrupted"; exit 1;; \
+			*) echo "failed ($$exit_code)" >&2; failed=1;; \
+		esac; \
+	done; \
+	if [ $$failed -eq 1 ]; then \
+		echo "Some clearings failed." >&2; exit 1; \
+	else \
+		echo "All clearings passed." >&2; \
+	fi
+
 clean-cache: ## clean go test cache
-	$(GO) clean -testcache ./...
+	$(GO) clean -testcache
 
 help: ## show this help
 	@printf "Usage: make [target] [VARIABLE=value]\n\n"

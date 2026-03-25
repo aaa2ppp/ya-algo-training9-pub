@@ -57,12 +57,9 @@ func run(in io.Reader, out io.Writer, solve solveFunc) {
 	defer bw.Flush()
 
 	b := NewBank()
-
-	var err error
-	var op string
 loop:
 	for {
-		op, err = br.ReadString('\n')
+		op, err := ScanString(br, '\n')
 		if err != nil {
 			break
 		}

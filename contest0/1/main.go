@@ -1,13 +1,12 @@
 package main
 
 import (
-	"bufio"
 	"io"
-	"log"
 	"os"
 	"strconv"
 	"strings"
-	"unsafe"
+
+	. "github.com/aaa2ppp/contestio"
 )
 
 var debug bool
@@ -36,10 +35,7 @@ func run(in io.Reader, out io.Writer, solve solveFunc) {
 	bw := NewWriter(out)
 	defer bw.Flush()
 
-	s, err := br.ReadString('\n')
-	if err != nil && err != io.EOF {
-		log.Fatal(err)
-	}
+	s, _ := ScanString(br, '\n')
 
 	s = solve(s)
 	bw.WriteString(s)
@@ -48,30 +44,3 @@ func run(in io.Reader, out io.Writer, solve solveFunc) {
 func main() {
 	run(os.Stdin, os.Stdout, solve)
 }
-
-// -- inline:github.com/aaa2ppp/contestio --------------------------------------
-
-const defaultBufSize = 4096
-
-type Reader = bufio.Reader
-
-func NewReaderSize(r io.Reader, size int) *Reader {
-	return bufio.NewReaderSize(r, size)
-}
-func NewReader(r io.Reader) *Reader {
-	return NewReaderSize(r, defaultBufSize)
-}
-
-type Writer struct {
-	*bufio.Writer
-	scratch [64 - unsafe.Sizeof(uintptr(0))]byte
-}
-
-func NewWriterSize(w io.Writer, size int) *Writer {
-	return &Writer{Writer: bufio.NewWriterSize(w, size)}
-}
-func NewWriter(w io.Writer) *Writer {
-	return NewWriterSize(w, defaultBufSize)
-}
-
-// -- /inline:github.com/aaa2ppp/contestio -------------------------------------
