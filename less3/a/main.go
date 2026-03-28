@@ -9,12 +9,15 @@ import (
 
 var debug bool
 
-type solveFunc func([]int) int
+type solveFunc func([]int) []int
 
-func solve(a []int) int {
+func solve(a []int) []int {
 	n := len(a)
-	_ = n
-	return 0
+	b := make([]int, n+1)
+	for i, v := range a {
+		b[i+1] = b[i] + v
+	}
+	return b[1:]
 }
 
 func run(in io.Reader, out io.Writer, solve solveFunc) {
@@ -23,13 +26,15 @@ func run(in io.Reader, out io.Writer, solve solveFunc) {
 	defer bw.Flush()
 
 	var n int
-	ScanInt(br, &n)
+	var a []int
 
-	a := make([]int, n)
+	ScanIntLn(br, &n)
+
+	a = Resize(a, n)
 	ScanInts(br, a)
 
 	ans := solve(a)
-	PrintIntLn(bw, ans)
+	PrintIntsLn(bw, ans)
 }
 
 func main() {
