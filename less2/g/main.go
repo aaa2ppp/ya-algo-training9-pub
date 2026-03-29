@@ -71,13 +71,10 @@ func run(in io.Reader, out io.Writer, solve solveFunc) {
 
 	var sales []Sale
 
+	var s Sale
 	for {
-		var s Sale
-		if _, err := ScanWord(br, &s.Customer, &s.Product); err != nil {
+		if _, err := ScanAnyLn(br, &s.Customer, &s.Product, &s.Count); err != nil {
 			break
-		}
-		if _, err := ScanInt(br, &s.Count); err != nil {
-			panic(err)
 		}
 		sales = append(sales, s)
 	}
