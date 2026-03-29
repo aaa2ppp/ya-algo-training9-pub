@@ -1,5 +1,5 @@
 # build tags
-TAGS      ?= must,sugar
+TAGS      ?= must,sugar,any,unsafe
 # patterns for subprojects
 TARGET    ?= less* contest*
 # exact dirs to exclude

@@ -1,5 +1,7 @@
 #!/bin/sh
 
+: ${TAGS:="sugar,must,any,unsafe"}
+
 # Path to the local library (relative to project root)
 LOCAL_LIB_DIR="./lib/contestio"
 LOCAL_BIN="$LOCAL_LIB_DIR/bin/contestio-inline"
@@ -28,4 +30,4 @@ else
 fi
 
 # Run the tool with the required tags and all arguments
-exec "$CMD" -tags=sugar,must "$@"
+exec "$CMD" -tags="$TAGS" "$@"
