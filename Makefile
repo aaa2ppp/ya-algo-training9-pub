@@ -17,6 +17,8 @@ MAIN_DIRS_FILTERED := $(filter-out $(EXCLUDE),$(MAIN_DIRS))
 SHOW_LOCAL  := $(GO) list -m -f 'LOCAL: {{.Dir}}' github.com/aaa2ppp/contestio
 SHOW_REMOTE := $(GO) list -m -f 'REMOTE: github.com/aaa2ppp/contestio@{{.Version}}' github.com/aaa2ppp/contestio 
 
+PYTHON = $(shell which python3 2>/dev/null || which python 2>/dev/null || echo 'echo "you need to install python"; exit 1 #')
+
 .PHONY: all state local remote build test list inline inline-clear clean-cache help
 
 all: state build test ## show state, then build and test
@@ -116,6 +118,11 @@ inline-clear: ## contestio-inline -clear
 
 clean-cache: ## clean go test cache
 	$(GO) clean -testcache
+
+.PHONY: generate-readme
+
+update-readme: ## update README.md
+	@$(PYTHON) update_readme.py >&2
 
 help: ## show this help
 	@printf "Usage: make [target] [VARIABLE=value]\n\n"

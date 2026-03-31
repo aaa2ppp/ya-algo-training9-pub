@@ -1,3 +1,3 @@
-[Тренировки по алгоритмам 9.0 Тестовое соревнование](https://new.contest.yandex.ru/contests/89606/problems)
+## [Тренировки по алгоритмам 9.0 Тестовое соревнование](https://new.contest.yandex.ru/contests/89606/problems)
 1. Раскодируй строку
 2. Олигополия
