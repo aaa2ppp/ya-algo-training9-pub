@@ -46,8 +46,8 @@
 2. Не в своей тарелке ([решение](contest6/2/main.go))
 
 ### [Соревнование 7](https://new.contest.yandex.ru/contests/89539/problems)
-1. Школа танцев
-2. Конфетный подотрезок
+1. Школа танцев ([решение](contest7/1/main.go))
+2. Конфетный подотрезок ([решение](contest7/2/main.go))
 
 ### [Соревнование 8](https://new.contest.yandex.ru/contests/89540/problems)
 1. Закраска клеток ([решение](contest8/1/main.go))
