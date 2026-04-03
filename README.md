@@ -4,7 +4,7 @@
 👉 [Официальная страница тренировок](https://yandex.ru/yaintern/training/algorithm-training)  
 📚 [Архив прошлых сезонов](https://yandex.ru/yaintern/training)  
 
----
+В решениях используется библиотека [contestio](https://github.com/aaa2ppp/contestio). Удобство `fmt`, скорость `bufio`, ноль аллокаций. [**Подробнее**](https://github.com/aaa2ppp/contestio/blob/master/README.md).
 
 ## Оглавление
 
@@ -16,7 +16,7 @@
 
 ## Контесты
 
-### [Тренировки по алгоритмам 9.0 Тестовое соревнование](https://new.contest.yandex.ru/contests/89606/problems)
+### [Тестовое соревнование](https://new.contest.yandex.ru/contests/89606/problems)
 1. Раскодируй строку ([решение](contest0/1/main.go))
 2. Олигополия ([решение](contest0/2/main.go))
 
@@ -24,26 +24,34 @@
 1. Размещение доминошки ([решение](contest1/1/main.go))
 2. Стоячая волна ([решение](contest1/2/main.go))
 
-### [Тренировки: от алгоритмов к стажировке. Соревнование 2](https://new.contest.yandex.ru/contests/89534/problems)  
+### [Соревнование 2](https://new.contest.yandex.ru/contests/89534/problems)  
 1. Ахаха ([решение](contest2/1/main.go))
 2. Упаковка простыни ([решение](contest2/2/main.go))
 
-### [Тренировки: от алгоритмов к стажировке. Соревнование 3](https://new.contest.yandex.ru/contests/89535/problems)
+### [Соревнование 3](https://new.contest.yandex.ru/contests/89535/problems)
 1. Ребус ([решение](contest3/1/main.go))
 2. Экзамен в бункере
 
-### [Тренировки: от алгоритмов к стажировке. Соревнование 4](https://new.contest.yandex.ru/contests/89536/problems)
+### [Соревнование 4](https://new.contest.yandex.ru/contests/89536/problems)
 1. Настольный баскетбол ([решение](contest4/1/main.go))
 2. Парные k-префиксы ([решение](contest4/2/main.go))
 
 
-### [Тренировки: от алгоритмов к стажировке. Соревнование 5](https://new.contest.yandex.ru/contests/89537/problems)
+### [Соревнование 5](https://new.contest.yandex.ru/contests/89537/problems)
 1. Поиски ровера ([решение](contest5/1/main.go))
 2. Непересекающиеся подстроки ([решение](contest5/2/main.go))
 
-### [Тренировки: от алгоритмов к стажировке. Соревнование 6](https://new.contest.yandex.ru/contests/89538/problems)
+### [Соревнование 6](https://new.contest.yandex.ru/contests/89538/problems)
 1. Большое и кратное трем ([решение](contest6/1/main.go))
 2. Не в своей тарелке ([решение](contest6/2/main.go))
+
+### [Соревнование 7](https://new.contest.yandex.ru/contests/89539/problems)
+1. Школа танцев
+2. Конфетный подотрезок
+
+### [Соревнование 8](https://new.contest.yandex.ru/contests/89540/problems)
+1. Закраска клеток ([решение](contest8/1/main.go))
+2. Очередь в столовую ([решение](contest8/2/main.go))
 
 [Оглавление](#оглавление)
 ## Блок 1. Тестирование
