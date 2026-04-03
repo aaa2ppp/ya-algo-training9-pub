@@ -109,6 +109,8 @@ def process_lesson_file(file_path):
             prefix, letter, title = match_bullet.groups()
             letter_lower = letter.lower()
             solution_path = lesson_path / letter_lower / 'main.go'
+            if not solution_path.exists():
+                solution_path = lesson_path / letter_lower / 'solution.txt'
             if solution_path.exists() and '([решение]' not in line:
                 link = f'([решение]({solution_path.as_posix()}))'
                 new_line = f'{prefix}- {letter}. {title.rstrip()} {link}\n'
