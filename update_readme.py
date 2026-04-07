@@ -160,7 +160,10 @@ def main():
         top_content = '# Тренировки по алгоритмам'
 
     # 2. Обрабатываем контесты
-    contest_files = sorted(glob.glob('contest*/URL.md'))
+    contest_files = sorted(
+        glob.glob('contest*/URL.md'),
+        key=lambda path: int(os.path.basename(os.path.dirname(path)).replace('contest', ''))
+    )
     contest_content = []
     for f in contest_files:
         path = Path(f)
