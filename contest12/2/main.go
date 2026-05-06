@@ -1,11 +1,11 @@
 package main
 
 import (
-	"bufio"
-	"errors"
 	"io"
 	"log"
 	"os"
+
+	. "github.com/aaa2ppp/contestio"
 )
 
 var debug bool
@@ -113,139 +113,3 @@ func run(in io.Reader, out io.Writer, solve solveFunc) {
 func main() {
 	run(os.Stdin, os.Stdout, solve)
 }
-
-// -- inline:github.com/aaa2ppp/contestio --------------------------------------
-
-func _must[T any](v T, err error) (T, error) {
-	if err != nil && err != io.EOF {
-		panic(err)
-	}
-	return v, err
-}
-
-const defaultBufSize = 4096
-
-type br = bufio.Reader
-type bw = bufio.Writer
-type Reader struct{ br }
-
-func NewReaderSize(r io.Reader, size int) *Reader {
-	return &Reader{*bufio.NewReaderSize(r, size)}
-}
-func NewReader(r io.Reader) *Reader {
-	return NewReaderSize(r, defaultBufSize)
-}
-
-type Writer struct {
-	bw
-	scratch [32]byte
-}
-
-func NewWriterSize(w io.Writer, size int) *Writer {
-	return &Writer{bw: *bufio.NewWriterSize(w, size)}
-}
-func NewWriter(w io.Writer) *Writer {
-	return NewWriterSize(w, defaultBufSize)
-}
-
-type _parseFunc[T any] func([]byte) (T, error)
-
-func _scanSliceCommon[T any](br *Reader, parse _parseFunc[T], a []T) (int, error) {
-	for i := range a {
-		err := _skipSpace(br, false)
-		if err != nil {
-			if err == io.EOF {
-				if i == 0 {
-					return 0, io.EOF
-				}
-				return i, io.ErrUnexpectedEOF
-			}
-			return i, err
-		}
-		token, err := _nextToken(br)
-		if err != nil && err != io.EOF {
-			return i, err
-		}
-		v, err := parse(token)
-		if err != nil {
-			return i, err
-		}
-		a[i] = v
-	}
-	return len(a), nil
-}
-func _scanSlice[T any](br *Reader, parse _parseFunc[T], a []T) (int, error) {
-	return _must(_scanSliceCommon(br, parse, a))
-}
-
-var ErrTokenTooLong = errors.New("token too long")
-
-func _nextToken(br *Reader) ([]byte, error) {
-	var buf []byte
-	var err error
-	i := 0
-	fast := br.Buffered() > 0
-	for i < br.Size() {
-		if fast {
-			buf, _ = br.Peek(br.Buffered())
-		} else {
-			buf, err = br.Peek(br.Buffered() + 1)
-			if err != nil {
-				_, _ = br.Discard(len(buf))
-				return buf, err
-			}
-		}
-		buf = buf[:br.Buffered()]
-		for ; i < len(buf); i++ {
-			if _isSpace(buf[i]) {
-				_, _ = br.Discard(i)
-				return buf[:i], nil
-			}
-		}
-		fast = false
-	}
-	_, _ = br.Discard(len(buf))
-	return buf, ErrTokenTooLong
-}
-
-var EOL = errors.New("EOL")
-var _spaceTab = [256]bool{
-	' ':  true,
-	'\t': true,
-	'\r': true,
-	'\n': true,
-}
-
-func _isSpace(c byte) bool { return _spaceTab[c] }
-func _skipSpace(br *Reader, stopAtEol bool) error {
-	var buf []byte
-	var err error
-	fast := br.Buffered() > 0
-	for {
-		if fast {
-			buf, _ = br.Peek(br.Buffered())
-		} else {
-			buf, err = br.Peek(br.Buffered() + 1)
-			if err != nil {
-				return err
-			}
-		}
-		buf = buf[:br.Buffered()]
-		for i, c := range buf {
-			if stopAtEol && c == '\n' {
-				_, _ = br.Discard(i + 1)
-				return EOL
-			}
-			if !_isSpace(c) {
-				_, _ = br.Discard(i)
-				return nil
-			}
-		}
-		_, _ = br.Discard(len(buf))
-		fast = false
-	}
-}
-func _parseWord[T ~string](token []byte) (T, error)       { return T(token), nil }
-func ScanWords[T ~string](br *Reader, a []T) (int, error) { return _scanSlice(br, _parseWord, a) }
-
-// -- /inline:github.com/aaa2ppp/contestio -------------------------------------
